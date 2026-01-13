@@ -416,11 +416,6 @@ export function OTPInput(props: OTPInputProps) {
 		e: InputEvent & { currentTarget: HTMLInputElement },
 	) => {
 		const newValue = e.currentTarget.value.slice(0, local.maxLength);
-		const currentRegexp = regexp();
-		if (newValue.length > 0 && currentRegexp && !currentRegexp.test(newValue)) {
-			e.preventDefault();
-			return;
-		}
 
 		const prevValue = previousValue();
 		const maybeHasDeleted =
@@ -431,6 +426,16 @@ export function OTPInput(props: OTPInputProps) {
 		}
 
 		onChange(newValue);
+	};
+
+	const _verifyInupt = (
+		e: InputEvent & { currentTarget: HTMLInputElement },
+	) => {
+		const currentRegexp = regexp();
+		if (e.data && currentRegexp && !currentRegexp.test(e.data.trim())) {
+			e.preventDefault();
+			return;
+		}
 	};
 
 	const _focusListener = () => {
@@ -585,6 +590,12 @@ export function OTPInput(props: OTPInputProps) {
 				_pasteListener(e);
 				if (typeof inputProps.onPaste === "function") {
 					inputProps.onPaste(e);
+				}
+			}}
+			onBeforeInput={(e) => {
+				_verifyInupt(e);
+				if (typeof inputProps.onBeforeInput === "function") {
+					inputProps.onBeforeInput(e);
 				}
 			}}
 			onInput={(e) => {
