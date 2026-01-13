@@ -432,7 +432,7 @@ export function OTPInput(props: OTPInputProps) {
 		e: InputEvent & { currentTarget: HTMLInputElement },
 	) => {
 		const currentRegexp = regexp();
-		if (e.data && currentRegexp && !currentRegexp.test(e.data.trim())) {
+		if (e.data && currentRegexp && !currentRegexp.test(e.data)) {
 			e.preventDefault();
 			return;
 		}
